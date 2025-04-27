@@ -7,20 +7,37 @@ const port = 3000
 
 connectDB();
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://vercel-frontend-rho-drab.vercel.app');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-  
-  return next();
-});
+const corsOptions = {
+  origin: 'https://vercel-frontend-rho-drab.vercel.app',
+  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'X-CSRF-Token',
+    'X-Requested-With',
+    'Accept',
+    'Accept-Version',
+    'Content-Length',
+    'Content-MD5',
+    'Date',
+    'X-Api-Version'
+  ],
+  credentials: true
+};
 
-app.use(express.json({ extended: false }));
+// 1) add CORS headers on **every** request
+app.use(cors(corsOptions));
+
+// 2) explicitly respond to **all** OPTIONS preflight requests
+app.options('*', (req, res) => {
+  // you could also use cors(corsOptions) here:
+  res
+    .header('Access-Control-Allow-Origin', corsOptions.origin)
+    .header('Access-Control-Allow-Methods', corsOptions.methods.join(','))
+    .header('Access-Control-Allow-Headers', corsOptions.allowedHeaders.join(','))
+    .header('Access-Control-Allow-Credentials', 'true')
+    .sendStatus(200);
+});
 
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/student', require('./routes/studentRoutes'));
