@@ -8,7 +8,7 @@ const port = 3000
 connectDB();
 
 const corsOptions = {
-  origin: 'https://vercel-frontend-rho-drab.vercel.app', // Replace with your actual frontend URL
+  origin: 'http://localhost:5173, https://vercel-frontend-rho-drab.vercel.app', // Replace with your actual frontend URL
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true, // If you are using cookies or authentication headers
