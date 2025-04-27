@@ -39,6 +39,10 @@ app.options('*', (req, res) => {
     .header("HTTP/1.1 200 OK");
 });
 
+app.options('*', (req, res) => {
+  res.status(200).end();
+});
+
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/student', require('./routes/studentRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
