@@ -25,24 +25,18 @@ const corsOptions = {
   credentials: true
 };
 
-// 1) add CORS headers on **every** request
+// 1) Apply CORS middleware to all routes
 app.use(cors(corsOptions));
 
-// 2) explicitly respond to **all** OPTIONS preflight requests
-app.options('*', (req, res) => {
-  // you could also use cors(corsOptions) here:
-  res
-    .header('Access-Control-Allow-Origin', corsOptions.origin)
-    .header('Access-Control-Allow-Methods', corsOptions.methods.join(','))
-    .header('Access-Control-Allow-Headers', corsOptions.allowedHeaders.join(','))
-    .header('Access-Control-Allow-Credentials', 'true')
-    .header("HTTP/1.1 200 OK");
-});
+// 2) Parse JSON request bodies
+app.use(express.json({ extended: false }));
 
+// 3) Handle OPTIONS requests explicitly
 app.options('*', (req, res) => {
   res.status(200).end();
 });
 
+// Your routes
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/student', require('./routes/studentRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
