@@ -7,15 +7,18 @@ const port = 3000
 
 connectDB();
 
-const corsOptions = {
-  origin: 'http://localhost:5173, https://vercel-frontend-rho-drab.vercel.app', // Replace with your actual frontend URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true, // If you are using cookies or authentication headers
-};
-
-app.use(cors(corsOptions)); // Apply CORS configuration globally
-app.options('*', cors(corsOptions)); // Allow preflight OPTIONS requests
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://vercel-frontend-rho-drab.vercel.app');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  
+  return next();
+});
 
 app.use(express.json({ extended: false }));
 
