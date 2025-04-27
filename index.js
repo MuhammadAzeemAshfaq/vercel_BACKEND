@@ -7,7 +7,10 @@ const port = 3000
 
 connectDB();
 
-app.use(cors());
+var whitelist = ["http://localhost:5173", "https://vercel-frontend-rho-drab.vercel.app/"];
+var corsOptions = { origin: whitelist, credentials: true };
+
+app.use(cors(corsOptions));
 
 app.use(express.json({ extended: false }));
 
