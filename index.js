@@ -7,9 +7,12 @@ const port = 3000
 
 connectDB();
 
-var whitelist = ["http://localhost:5173", "https://vercel-frontend-rho-drab.vercel.app/"];
-var corsOptions = { origin: whitelist, credentials: true };
-
+const corsOptions = {
+  origin: 'https://vercel-frontend-rho-drab.vercel.app', // Replace with your actual frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, // If you are using cookies or authentication headers
+};
 app.use(cors(corsOptions));
 
 app.use(express.json({ extended: false }));
