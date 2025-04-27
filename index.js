@@ -13,7 +13,9 @@ const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true, // If you are using cookies or authentication headers
 };
-app.use(cors(corsOptions));
+
+app.use(cors(corsOptions)); // Apply CORS configuration globally
+app.options('*', cors(corsOptions)); // Allow preflight OPTIONS requests
 
 app.use(express.json({ extended: false }));
 
