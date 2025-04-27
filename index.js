@@ -36,7 +36,7 @@ app.options('*', (req, res) => {
     .header('Access-Control-Allow-Methods', corsOptions.methods.join(','))
     .header('Access-Control-Allow-Headers', corsOptions.allowedHeaders.join(','))
     .header('Access-Control-Allow-Credentials', 'true')
-    .sendStatus(200);
+    .header("HTTP/1.1 200 OK");
 });
 
 app.use('/api/auth', require('./routes/authRoutes'));
